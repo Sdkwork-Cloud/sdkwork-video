@@ -9,5 +9,5 @@ name = "sdkwork_video_service"
 path = "src/lib.rs"
 
 [dependencies]
-sdkwork_video_core = { path = "../sdkwork-video-core-rust" }
+sdkwork-video-core-rust.workspace = true
 

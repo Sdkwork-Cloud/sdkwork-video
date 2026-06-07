@@ -1,7 +1,19 @@
 [workspace]
+resolver = "2"
 members = [
     "packages/native-rust/video/sdkwork-video-core-rust",
-    "packages/native-rust/video/sdkwork-video-provider-claw-router-rust",
     "packages/native-rust/video/sdkwork-video-service-rust",
+    "packages/native-rust/video/sdkwork-video-provider-claw-router-rust",
 ]
-resolver = "2"
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+
+[workspace.dependencies]
+# SDKWork workspace members - declared once at workspace root
+sdkwork-video-core-rust = { path = "packages/native-rust/video/sdkwork-video-core-rust" }
+sdkwork-video-service-rust = { path = "packages/native-rust/video/sdkwork-video-service-rust" }
+sdkwork-video-provider-claw-router-rust = { path = "packages/native-rust/video/sdkwork-video-provider-claw-router-rust" }
+clawrouter-open-sdk = { path = "../sdkwork-claw-router/sdks/clawrouter-open-sdk/clawrouter-open-sdk-rust/generated/server-openapi" }
+sdkwork-drive-product = { path = "../sdkwork-drive/services/sdkwork-drive-product" }
