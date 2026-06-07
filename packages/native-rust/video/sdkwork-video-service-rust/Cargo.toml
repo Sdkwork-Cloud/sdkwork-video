@@ -1,0 +1,13 @@
+[package]
+name = "sdkwork_video_service"
+version = "0.1.0"
+edition = "2021"
+description = "SDKWork video generation service orchestration contracts."
+
+[lib]
+name = "sdkwork_video_service"
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork_video_core = { path = "../sdkwork-video-core-rust" }
+

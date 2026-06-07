@@ -8,3 +8,6 @@
 .env.postgres
 .env.release.local
 config/*.local.toml
+
+# Rust build outputs
+target/

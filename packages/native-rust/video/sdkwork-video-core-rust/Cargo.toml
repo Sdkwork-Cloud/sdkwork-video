@@ -1,0 +1,13 @@
+[package]
+name = "sdkwork_video_core"
+version = "0.1.0"
+edition = "2021"
+description = "SDKWork video domain core contracts."
+
+[lib]
+name = "sdkwork_video_core"
+path = "src/lib.rs"
+
+[dependencies]
+sdkwork-drive-product = { path = "../../../../../sdkwork-drive/services/sdkwork-drive-product" }
+

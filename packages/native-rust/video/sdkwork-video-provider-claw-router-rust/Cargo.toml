@@ -1,0 +1,15 @@
+[package]
+name = "sdkwork_video_provider_claw_router"
+version = "0.1.0"
+edition = "2021"
+description = "SDKWork video provider gateway backed by the generated Claw Router Rust SDK."
+
+[lib]
+name = "sdkwork_video_provider_claw_router"
+path = "src/lib.rs"
+
+[dependencies]
+clawrouter-open-sdk = { path = "../../../../../sdkwork-claw-router/sdks/clawrouter-open-sdk/clawrouter-open-sdk-rust/generated/server-openapi" }
+sdkwork_video_core = { path = "../sdkwork-video-core-rust" }
+serde_json = "1.0"
+

@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "packages/native-rust/video/sdkwork-video-core-rust",
+    "packages/native-rust/video/sdkwork-video-provider-claw-router-rust",
+    "packages/native-rust/video/sdkwork-video-service-rust",
+]
+resolver = "2"
