@@ -1,0 +1,3 @@
+void bootstrap() {
+  // Bootstrap initialization
+}

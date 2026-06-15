@@ -1,0 +1,10 @@
+# Desktop config for test
+[general]
+app_name = "SDKWork Video PC"
+version = "0.1.0"
+
+[database]
+path = "~/.sdkwork/sdkwork-video-pc/data/test.sqlite"
+
+[logging]
+level = "info"

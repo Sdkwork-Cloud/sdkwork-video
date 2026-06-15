@@ -1,0 +1,8 @@
+{
+  "appId": "com.sdkwork.sdkwork.video.h5",
+  "appName": "SDKWork Video H5",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

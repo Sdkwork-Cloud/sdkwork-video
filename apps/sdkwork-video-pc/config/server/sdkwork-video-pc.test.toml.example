@@ -1,0 +1,13 @@
+# Server config for test
+[server]
+host = "127.0.0.1"
+port = 8081
+
+[database]
+url = "postgresql://localhost:5432/sdkwork_video_test"
+
+[redis]
+url = "redis://localhost:6379/1"
+
+[logging]
+level = "info"

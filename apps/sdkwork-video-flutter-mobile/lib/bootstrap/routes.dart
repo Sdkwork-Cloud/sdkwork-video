@@ -1,0 +1,3 @@
+void bootstrap() {
+  // Routes initialization
+}

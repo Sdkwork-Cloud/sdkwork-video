@@ -1,0 +1,10 @@
+# Desktop config for development
+[general]
+app_name = "SDKWork Video PC"
+version = "0.1.0"
+
+[database]
+path = "~/.sdkwork/sdkwork-video-pc/data/dev.sqlite"
+
+[logging]
+level = "debug"

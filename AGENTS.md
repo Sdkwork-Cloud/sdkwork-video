@@ -20,7 +20,12 @@ Do not copy root standard text into this repository. If these relative paths do 
 
 ## Application Identity
 
-No `sdkwork.app.config.json` is present at this root. If the task changes application behavior, runtime config, SDK wiring, release metadata, or app-owned capabilities, first locate the nearest application root that has this manifest or add one according to the root specs.
+This is the repository root for SDKWork Video. Application roots are located in `apps/`:
+- `apps/sdkwork-video-pc/` - PC browser/desktop/tablet application (React + Tauri)
+- `apps/sdkwork-video-flutter-mobile/` - Flutter mobile application (iOS/Android)
+- `apps/sdkwork-video-h5/` - H5/Capacitor mobile web application
+
+Each application root has its own `sdkwork.app.config.json` and `AGENTS.md`.
 
 ## Local Dictionary Structure
 
@@ -28,10 +33,13 @@ No `sdkwork.app.config.json` is present at this root. If the task changes applic
 - `CLAUDE.md`: Claude Code compatibility shim that points to `AGENTS.md` and must not duplicate rules.
 - `GEMINI.md`: Gemini CLI compatibility shim that points to `AGENTS.md` and must not duplicate rules.
 - `CODEX.md`: Codex compatibility shim that points to `AGENTS.md` and must not duplicate rules.
-- `sdkwork.app.config.json`: not present here; required for application roots.
+- `sdkwork.app.config.json`: not present at repository root; located in each application root under `apps/`.
 - `.sdkwork/`: reserved local dictionary folder; create only for local skills, plugins, manifests, or AI workspace metadata.
 - `specs/`: not present here; use when local contracts need to narrow root standards.
 - `sdks/`: not present here; use only for SDK authority or generation surfaces.
+- `apps/`: application roots for PC, Flutter Mobile, and H5.
+- `crates/`: Rust crates for video core, service, and provider.
+- `sdks/`: SDK workspaces and generator inputs.
 
 ## Spec Resolution Order
 
