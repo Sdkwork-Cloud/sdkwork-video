@@ -27,7 +27,6 @@
     "grantMode": "current",
     "platform": "WEB",
     "appId": null,
-    "tenantId": "20001",
     "organizationId": null
   },
   "runtime": {
@@ -43,7 +42,12 @@
       "DIRECT_DOWNLOAD"
     ],
     "defaultPlatform": "WEB",
-    "defaultArchitecture": "x64"
+    "defaultArchitecture": "x64",
+    "supportedDeploymentProfiles": [
+      "cloud",
+      "standalone"
+    ],
+    "defaultDeploymentProfile": "cloud"
   },
   "media": {
     "icons": {
@@ -94,7 +98,7 @@
       "DESKTOP_MACOS",
       "DESKTOP_LINUX"
     ],
-    "defaultPackageId": "web-production",
+    "defaultPackageId": "web-universal-cloud-browser-zip",
     "storeUrl": "https://sdkwork.com/apps/sdkwork-video",
     "stores": [],
     "config": {
@@ -122,13 +126,13 @@
   },
   "artifacts": {
     "installConfig": {
-      "defaultPackageId": "web-production",
+      "defaultPackageId": "web-universal-cloud-browser-zip",
       "installCommand": "sdkwork install sdkwork-video-pc",
       "launchCommand": "sdkwork open sdkwork-video-pc",
       "uninstallCommand": "sdkwork uninstall sdkwork-video-pc",
       "packages": [
         {
-          "id": "web-production",
+          "id": "web-universal-cloud-browser-zip",
           "name": "SDKWork Video PC Web Bundle",
           "sourceType": "WEB_URL",
           "packageFormat": "ZIP",
@@ -137,10 +141,13 @@
           "enabled": true,
           "metadata": {},
           "checksumAlgorithm": "SHA-256",
-          "checksum": "0d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf3"
+          "checksum": "0d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf3",
+          "architecture": "universal",
+          "deploymentProfile": "cloud",
+          "runtimeTarget": "browser"
         },
         {
-          "id": "desktop-windows",
+          "id": "windows-x64-standalone-desktop-zip",
           "name": "SDKWork Video PC Windows Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "ZIP",
@@ -150,10 +157,12 @@
           "metadata": {},
           "architecture": "x64",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1"
+          "checksum": "d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "desktop"
         },
         {
-          "id": "desktop-macos",
+          "id": "macos-universal-standalone-desktop-dmg",
           "name": "SDKWork Video PC macOS Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "DMG",
@@ -163,10 +172,12 @@
           "metadata": {},
           "architecture": "universal",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41"
+          "checksum": "de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "desktop"
         },
         {
-          "id": "desktop-linux",
+          "id": "linux-x64-standalone-desktop-appimage",
           "name": "SDKWork Video PC Linux Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "APPIMAGE",
@@ -180,7 +191,9 @@
           },
           "architecture": "x64",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2"
+          "checksum": "de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2de50b0c2",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "desktop"
         }
       ],
       "metadata": {
@@ -210,10 +223,10 @@
           "Desktop packaging metadata prepared"
         ],
         "packageIds": [
-          "web-production",
-          "desktop-windows",
-          "desktop-macos",
-          "desktop-linux"
+          "web-universal-cloud-browser-zip",
+          "windows-x64-standalone-desktop-zip",
+          "macos-universal-standalone-desktop-dmg",
+          "linux-x64-standalone-desktop-appimage"
         ],
         "publishedAt": "2026-06-14T00:00:00Z",
         "current": true,

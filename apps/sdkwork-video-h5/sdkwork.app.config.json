@@ -27,7 +27,6 @@
     "grantMode": "current",
     "platform": "MOBILE",
     "appId": null,
-    "tenantId": "20001",
     "organizationId": null
   },
   "runtime": {
@@ -44,7 +43,12 @@
       "GOOGLE_PLAY"
     ],
     "defaultPlatform": "WEB",
-    "defaultArchitecture": "x64"
+    "defaultArchitecture": "x64",
+    "supportedDeploymentProfiles": [
+      "cloud",
+      "standalone"
+    ],
+    "defaultDeploymentProfile": "cloud"
   },
   "media": {
     "icons": {
@@ -93,7 +97,7 @@
       "APP_IOS",
       "APP_ANDROID"
     ],
-    "defaultPackageId": "h5-production",
+    "defaultPackageId": "h5-universal-cloud-mobile-zip",
     "storeUrl": "https://sdkwork.com/apps/sdkwork-video",
     "stores": [],
     "config": {
@@ -121,13 +125,13 @@
   },
   "artifacts": {
     "installConfig": {
-      "defaultPackageId": "h5-production",
+      "defaultPackageId": "h5-universal-cloud-mobile-zip",
       "installCommand": "sdkwork install sdkwork-video-h5",
       "launchCommand": "sdkwork open sdkwork-video-h5",
       "uninstallCommand": "sdkwork uninstall sdkwork-video-h5",
       "packages": [
         {
-          "id": "h5-production",
+          "id": "h5-universal-cloud-mobile-zip",
           "name": "SDKWork Video H5 Web Bundle",
           "sourceType": "WEB_URL",
           "packageFormat": "ZIP",
@@ -136,10 +140,13 @@
           "enabled": true,
           "metadata": {},
           "checksumAlgorithm": "SHA-256",
-          "checksum": "0d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf3"
+          "checksum": "0d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf3",
+          "architecture": "universal",
+          "deploymentProfile": "cloud",
+          "runtimeTarget": "browser"
         },
         {
-          "id": "capacitor-ios",
+          "id": "ios-universal-standalone-mobile-ipa",
           "name": "SDKWork Video H5 iOS Capacitor Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "IPA",
@@ -149,10 +156,12 @@
           "metadata": {},
           "architecture": "universal",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1"
+          "checksum": "d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "capacitor-ios"
         },
         {
-          "id": "capacitor-android",
+          "id": "android-arm64-standalone-mobile-aab",
           "name": "SDKWork Video H5 Android Capacitor Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "AAB",
@@ -162,7 +171,9 @@
           "metadata": {},
           "architecture": "arm64",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41"
+          "checksum": "de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41de5afb41",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "capacitor-android"
         }
       ],
       "metadata": {
@@ -192,9 +203,9 @@
           "iOS/Android Capacitor packaging metadata prepared"
         ],
         "packageIds": [
-          "h5-production",
-          "capacitor-ios",
-          "capacitor-android"
+          "h5-universal-cloud-mobile-zip",
+          "ios-universal-standalone-mobile-ipa",
+          "android-arm64-standalone-mobile-aab"
         ],
         "publishedAt": "2026-06-14T00:00:00Z",
         "current": true,

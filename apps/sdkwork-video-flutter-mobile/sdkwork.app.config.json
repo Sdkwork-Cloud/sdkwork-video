@@ -27,7 +27,6 @@
     "grantMode": "current",
     "platform": "MOBILE",
     "appId": null,
-    "tenantId": "20001",
     "organizationId": null
   },
   "runtime": {
@@ -43,7 +42,11 @@
       "DIRECT_DOWNLOAD"
     ],
     "defaultPlatform": "ANDROID",
-    "defaultArchitecture": "arm64"
+    "defaultArchitecture": "arm64",
+    "supportedDeploymentProfiles": [
+      "standalone"
+    ],
+    "defaultDeploymentProfile": "standalone"
   },
   "media": {
     "icons": {
@@ -90,7 +93,7 @@
       "APP_ANDROID",
       "APP_IOS"
     ],
-    "defaultPackageId": "android-production",
+    "defaultPackageId": "android-arm64-standalone-mobile-aab",
     "storeUrl": "https://sdkwork.com/apps/sdkwork-video",
     "stores": [],
     "config": {
@@ -118,13 +121,13 @@
   },
   "artifacts": {
     "installConfig": {
-      "defaultPackageId": "android-production",
+      "defaultPackageId": "android-arm64-standalone-mobile-aab",
       "installCommand": "sdkwork install sdkwork-video-flutter-mobile",
       "launchCommand": "sdkwork open sdkwork-video-flutter-mobile",
       "uninstallCommand": "sdkwork uninstall sdkwork-video-flutter-mobile",
       "packages": [
         {
-          "id": "android-production",
+          "id": "android-arm64-standalone-mobile-aab",
           "name": "SDKWork Video Flutter Mobile Android Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "AAB",
@@ -134,10 +137,12 @@
           "metadata": {},
           "architecture": "arm64",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "0d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf3"
+          "checksum": "0d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf30d52cbf3",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "flutter-android"
         },
         {
-          "id": "ios-production",
+          "id": "ios-universal-standalone-mobile-ipa",
           "name": "SDKWork Video Flutter Mobile iOS Bundle",
           "sourceType": "BINARY_URL",
           "packageFormat": "IPA",
@@ -147,7 +152,9 @@
           "metadata": {},
           "architecture": "universal",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1"
+          "checksum": "d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1d2c446d1",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "flutter-ios"
         }
       ],
       "metadata": {
@@ -177,8 +184,8 @@
           "iOS/Android packaging metadata prepared"
         ],
         "packageIds": [
-          "android-production",
-          "ios-production"
+          "android-arm64-standalone-mobile-aab",
+          "ios-universal-standalone-mobile-ipa"
         ],
         "publishedAt": "2026-06-14T00:00:00Z",
         "current": true,
