@@ -1,10 +1,19 @@
 # Server config for production
+# Unified workspace PostgreSQL profile. See sdkwork-specs/ENVIRONMENT_SPEC.md §7.1.
+
 [server]
 host = "0.0.0.0"
 port = 8080
 
 [database]
-url = "postgresql://prod-host:5432/sdkwork_video_prod"
+engine = "postgresql"
+host = "db.example.com"
+port = 5432
+database = "sdkwork"
+schema = "public"
+username = "sdkwork"
+password_file = "/etc/sdkwork/database.secret"
+ssl_mode = "require"
 
 [redis]
 url = "redis://prod-host:6379/0"
