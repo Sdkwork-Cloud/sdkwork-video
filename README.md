@@ -45,3 +45,10 @@ Generated videos are planned for Drive `ai_generated` storage and represented as
 ## Verification
 
 - `cargo test --offline`
+
+## Documentation Canon
+
+- [docs/README.md](docs/README.md)
+- [docs/product/prd/PRD.md](docs/product/prd/PRD.md)
+- [docs/architecture/tech/TECH_ARCHITECTURE.md](docs/architecture/tech/TECH_ARCHITECTURE.md)
+
