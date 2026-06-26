@@ -58,8 +58,8 @@ fn plans_create_flow_with_provider_result_drive_import_and_outbox() {
 
     let plan = plan_video_generation_create_service_flow(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -139,7 +139,7 @@ fn plans_refresh_from_polling_result_with_drive_import_outputs_ready_event() {
 
     let plan = plan_video_generation_refresh_from_provider_result(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             actor: VideoGenerationActor::Anonymous {
                 anonymous_id: "anon-001".to_string(),
@@ -193,8 +193,8 @@ fn validates_webhook_consistency_before_planning_refresh() {
 
     let plan = plan_video_generation_refresh_from_webhook(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -272,8 +272,8 @@ fn plans_create_persistence_bindings_with_drive_sync_state() {
 
     let plan = plan_video_generation_create_persistence_plan(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -343,7 +343,7 @@ fn plans_refresh_persistence_bindings_for_failed_and_ready_outputs() {
 
     let failed_plan = plan_video_generation_refresh_persistence_plan(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             actor: VideoGenerationActor::Anonymous {
                 anonymous_id: "anon-persist".to_string(),
@@ -387,7 +387,7 @@ fn plans_refresh_persistence_bindings_for_failed_and_ready_outputs() {
 
     let ready_plan = plan_video_generation_refresh_persistence_plan(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             actor: VideoGenerationActor::Anonymous {
                 anonymous_id: "anon-persist".to_string(),
@@ -431,7 +431,7 @@ fn plans_refresh_success_without_outputs_as_generation_succeeded() {
 
     let refresh_plan = plan_video_generation_refresh_from_provider_result(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             actor: VideoGenerationActor::User {
                 user_id: "user-success".to_string(),
@@ -453,7 +453,7 @@ fn plans_refresh_success_without_outputs_as_generation_succeeded() {
 
     let persistence_plan = plan_video_generation_refresh_persistence_plan(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             actor: VideoGenerationActor::User {
                 user_id: "user-success".to_string(),
@@ -527,8 +527,8 @@ fn plans_drive_import_completion_as_generation_succeeded() {
 fn plans_executable_runtime_steps_for_generation_create_flow() {
     let steps = plan_video_generation_create_runtime_steps(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -577,8 +577,8 @@ fn plans_executable_runtime_steps_for_generation_create_flow() {
 fn rejects_create_runtime_steps_when_vidu_image_operation_has_no_source_image() {
     let error = plan_video_generation_create_runtime_steps(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -611,8 +611,8 @@ fn rejects_create_runtime_steps_when_vidu_image_operation_has_no_source_image() 
 fn rejects_create_runtime_steps_when_provider_operation_is_not_exposed_by_claw_router_gateway() {
     let error = plan_video_generation_create_runtime_steps(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -648,8 +648,8 @@ fn rejects_create_runtime_steps_when_provider_operation_is_not_exposed_by_claw_r
 fn rejects_create_service_flow_when_provider_operation_is_not_exposed_by_claw_router_gateway() {
     let error = plan_video_generation_create_service_flow(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -670,8 +670,8 @@ fn rejects_create_service_flow_when_provider_operation_is_not_exposed_by_claw_ro
 fn rejects_create_persistence_plan_when_provider_operation_is_not_exposed_by_claw_router_gateway() {
     let error = plan_video_generation_create_persistence_plan(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             actor: VideoGenerationActor::User {
                 user_id: "user-001".to_string(),
             },
@@ -725,7 +725,7 @@ fn plans_executable_runtime_steps_for_refresh_outputs_and_drive_sync() {
 
     let steps = plan_video_generation_refresh_runtime_steps(
         VideoGenerationScope {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             actor: VideoGenerationActor::Anonymous {
                 anonymous_id: "anon-runtime-002".to_string(),

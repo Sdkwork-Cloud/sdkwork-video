@@ -15,5 +15,5 @@ version = "0.1.0"
 sdkwork-video-core-rust = { path = "crates/sdkwork-video-core-rust" }
 sdkwork-video-service-rust = { path = "crates/sdkwork-video-service-rust" }
 sdkwork-video-provider-claw-router-rust = { path = "crates/sdkwork-video-provider-claw-router-rust" }
-clawrouter-open-sdk = { path = "../sdkwork-claw-router/sdks/clawrouter-open-sdk/clawrouter-open-sdk-rust/generated/server-openapi" }
+clawrouter-open-sdk = { path = "../sdkwork-clawrouter/sdks/clawrouter-open-sdk/clawrouter-open-sdk-rust/generated/server-openapi" }
 sdkwork-drive-product = { path = "../sdkwork-drive/services/sdkwork-drive-product" }

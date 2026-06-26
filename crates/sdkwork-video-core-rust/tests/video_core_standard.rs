@@ -449,8 +449,8 @@ fn normalizes_video_provider_failure_without_drive_import_outputs() {
 fn plans_generated_videos_into_drive_ai_generated_space() {
     let plans = plan_drive_import_for_generated_video_outputs(
         DriveGeneratedVideoContext {
-            tenant_id: "tenant-1".to_string(),
-            organization_id: Some("org-1".to_string()),
+            tenant_id: "100001".to_string(),
+            organization_id: Some("0".to_string()),
             generation_id: "video-generation-001".to_string(),
             provider_code: "vidu".to_string(),
             model: Some("vidu2.0".to_string()),
@@ -498,7 +498,7 @@ fn plans_generated_videos_into_drive_ai_generated_space() {
 fn builds_drive_uploader_command_for_generated_video_output() {
     let plans = plan_drive_import_for_generated_video_outputs(
         DriveGeneratedVideoContext {
-            tenant_id: "tenant-1".to_string(),
+            tenant_id: "100001".to_string(),
             organization_id: None,
             generation_id: "video-generation-001".to_string(),
             provider_code: "kling".to_string(),
@@ -525,7 +525,7 @@ fn builds_drive_uploader_command_for_generated_video_output() {
 
     let command = build_drive_uploader_command_for_generated_video_output(
         &plans[0],
-        "tenant-1",
+        "100001",
         None,
         "operator-001",
         1_780_000_000_000,
