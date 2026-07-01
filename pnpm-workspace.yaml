@@ -1,0 +1,7 @@
+packages:
+  - "apps/sdkwork-video-flutter-mobile"
+  - "apps/sdkwork-video-flutter-mobile/packages/*"
+  - "apps/sdkwork-video-h5"
+  - "apps/sdkwork-video-h5/packages/*"
+  - "apps/sdkwork-video-pc"
+  - "apps/sdkwork-video-pc/packages/*"

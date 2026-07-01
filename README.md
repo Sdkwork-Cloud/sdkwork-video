@@ -1,4 +1,5 @@
 # SDKWork Video
+repository-kind: application
 
 `sdkwork-video` owns SDKWork video generation core contracts and provider integration boundaries.
 
