@@ -1,0 +1,18 @@
+[package]
+name = "sdkwork-video-generation-mcp-service"
+version.workspace = true
+edition.workspace = true
+description = "Model Context Protocol adapter for SDKWork video generation."
+
+[dependencies]
+rmcp.workspace = true
+schemars.workspace = true
+sdkwork-video-generation-service.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+async-trait = "0.1"
+axum = { version = "0.8", default-features = false }
+tokio.workspace = true
+tower = { version = "0.5", features = ["util"] }

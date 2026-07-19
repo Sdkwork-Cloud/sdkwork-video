@@ -1,5 +1,8 @@
 use crate::{
-    models::{VideoGenerationCreateCommand, VideoProviderDispatchPlan},
+    models::{
+        VideoGenerationCommand, VideoGenerationCreateCommand, VideoGenerationModelSelection,
+        VideoProviderDispatchPlan, VideoVendorId,
+    },
     status::{VideoProviderOperation, VideoProviderTaskMode},
     text::{
         normalize_operation_code, normalize_provider_code_for_storage, normalized_optional_text,
@@ -10,27 +13,53 @@ use crate::{
 pub fn plan_video_generation_provider_dispatch(
     command: &VideoGenerationCreateCommand,
 ) -> Result<VideoProviderDispatchPlan, &'static str> {
-    let prompt = require_trimmed(&command.prompt, "video generation prompt is required")?;
-    let scene = require_trimmed(&command.scene, "video generation scene is required")?;
-    validate_scene_code(scene)?;
-
-    let provider_code = command
+    let vendor = command
         .provider_code
         .as_deref()
         .map(str::trim)
         .filter(|value| !value.is_empty())
-        .unwrap_or("vidu")
-        .to_ascii_lowercase();
-    let provider_code = normalize_provider_code_for_storage(&provider_code);
+        .unwrap_or("vidu");
+    let model = match command.model.as_deref().map(str::trim) {
+        Some(value) if !value.is_empty() => VideoGenerationModelSelection::named(value)?,
+        _ => VideoGenerationModelSelection::VendorDefault,
+    };
+    plan_unified_video_generation_provider_dispatch(&VideoGenerationCommand {
+        vendor: VideoVendorId::new(vendor)?,
+        operation: command.operation.clone(),
+        model,
+        prompt: command.prompt.clone(),
+        negative_prompt: command.negative_prompt.clone(),
+        scene: command.scene.clone(),
+        resolution: command.resolution.clone(),
+        aspect_ratio: command.aspect_ratio.clone(),
+        duration_seconds: command.duration_seconds,
+        start_image: command.start_image.clone(),
+        end_image: command.end_image.clone(),
+        reference_images: command.reference_images.clone(),
+        motion_strength: command.motion_strength.clone(),
+        callback_url: command.webhook_url.clone(),
+        idempotency_key: command.idempotency_key.clone(),
+        vendor_parameters: None,
+    })
+}
+
+pub fn plan_unified_video_generation_provider_dispatch(
+    command: &VideoGenerationCommand,
+) -> Result<VideoProviderDispatchPlan, &'static str> {
+    let prompt = require_trimmed(&command.prompt, "video generation prompt is required")?;
+    let scene = require_trimmed(&command.scene, "video generation scene is required")?;
+    validate_scene_code(scene)?;
+
+    let provider_code = normalize_provider_code_for_storage(command.vendor.as_str());
     let operation = command
         .operation
         .as_deref()
         .map(normalize_operation_code)
         .unwrap_or_default();
-    let callback_url = normalized_optional_text(command.webhook_url.as_deref());
+    let callback_url = normalized_optional_text(command.callback_url.as_deref());
     let start_image = normalized_optional_text(command.start_image.as_deref());
     let end_image = normalized_optional_text(command.end_image.as_deref());
-    let reference_image_count = normalized_reference_image_count(command);
+    let reference_image_count = normalized_reference_image_count(&command.reference_images);
     let source_images = normalized_source_images(command);
     if provider_code == "vidu" {
         validate_vidu_operation_inputs(
@@ -42,46 +71,21 @@ pub fn plan_video_generation_provider_dispatch(
         )?;
     }
 
-    let (
-        provider_operation,
-        task_mode,
-        claw_router_api_path,
-        claw_router_sdk_resource,
-        claw_router_sdk_method,
-    ) = match provider_code.as_str() {
+    let (provider_operation, task_mode) = match provider_code.as_str() {
         "vidu" => vidu_operation_for_command(&operation, &source_images),
         "kling" => (
             VideoProviderOperation::KlingVideoGeneration,
             VideoProviderTaskMode::Task,
-            "/kling/v1/videos/generations",
-            "videos_kling",
-            "create_v1_videos_generation",
         ),
         "volcengine" | "doubao" | "ark" => (
             VideoProviderOperation::VolcengineContentGeneration,
             VideoProviderTaskMode::Task,
-            "/volcengine/api/v3/contents/generations/tasks",
-            "videos_volcengine",
-            "create_api_v3_contents_generations_task",
         ),
-        "openai" | "sora" | "openai-compatible" | "claw-router" | "clawrouter" => (
+        "openai" | "sora" | "openai-compatible" => (
             VideoProviderOperation::OpenAiVideoGeneration,
             VideoProviderTaskMode::Task,
-            "/v1/videos",
-            "video",
-            "create",
         ),
-        _ => (
-            VideoProviderOperation::ProviderNativeVideoGeneration,
-            if callback_url.is_some() {
-                VideoProviderTaskMode::Webhook
-            } else {
-                VideoProviderTaskMode::Task
-            },
-            "/v1/videos/generations",
-            "video",
-            "create",
-        ),
+        _ => return Err("video generation vendor is not supported by a registered provider"),
     };
 
     if let Some(duration_seconds) = command.duration_seconds {
@@ -91,16 +95,14 @@ pub fn plan_video_generation_provider_dispatch(
     }
 
     Ok(VideoProviderDispatchPlan {
+        provider_id: String::new(),
         provider_code,
         provider_operation,
         task_mode,
-        claw_router_api_path,
-        claw_router_sdk_resource,
-        claw_router_sdk_method,
         scene: scene.to_string(),
         prompt: prompt.to_string(),
         negative_prompt: normalized_optional_text(command.negative_prompt.as_deref()),
-        model: normalized_optional_text(command.model.as_deref()),
+        model: command.model.as_named().map(str::to_string),
         resolution: normalized_optional_text(command.resolution.as_deref()),
         aspect_ratio: normalized_optional_text(command.aspect_ratio.as_deref()),
         duration_seconds: command.duration_seconds,
@@ -110,28 +112,20 @@ pub fn plan_video_generation_provider_dispatch(
         motion_strength: normalized_optional_text(command.motion_strength.as_deref()),
         callback_url,
         idempotency_key: normalized_optional_text(command.idempotency_key.as_deref()),
+        vendor_parameters: command.vendor_parameters.clone(),
     })
 }
 
 fn vidu_operation_for_command(
     operation: &str,
     source_images: &[String],
-) -> (
-    VideoProviderOperation,
-    VideoProviderTaskMode,
-    &'static str,
-    &'static str,
-    &'static str,
-) {
+) -> (VideoProviderOperation, VideoProviderTaskMode) {
     if matches!(operation, "start_end_to_video" | "start_end2video")
         || (source_images.len() >= 2 && operation.is_empty())
     {
         return (
             VideoProviderOperation::ViduStartEndToVideo,
             VideoProviderTaskMode::Task,
-            "/vidu/ent/v2/start-end2video",
-            "videos_vidu",
-            "create_ent_v2_start_end2video",
         );
     }
     if matches!(operation, "image_to_video" | "img2video")
@@ -140,26 +134,17 @@ fn vidu_operation_for_command(
         return (
             VideoProviderOperation::ViduImageToVideo,
             VideoProviderTaskMode::Task,
-            "/vidu/ent/v2/img2video",
-            "videos_vidu",
-            "create_ent_v2_img2video",
         );
     }
     if matches!(operation, "reference_to_video" | "reference2video") {
         return (
             VideoProviderOperation::ViduReferenceToVideo,
             VideoProviderTaskMode::Task,
-            "/vidu/ent/v2/reference2video",
-            "videos_vidu",
-            "create_ent_v2_reference2video",
         );
     }
     (
         VideoProviderOperation::ViduTextToVideo,
         VideoProviderTaskMode::Task,
-        "/vidu/ent/v2/text2video",
-        "videos_vidu",
-        "create_ent_v2_text2video",
     )
 }
 
@@ -184,15 +169,14 @@ fn validate_vidu_operation_inputs(
     Ok(())
 }
 
-fn normalized_reference_image_count(command: &VideoGenerationCreateCommand) -> usize {
-    command
-        .reference_images
+fn normalized_reference_image_count(reference_images: &[String]) -> usize {
+    reference_images
         .iter()
         .filter(|image| normalized_optional_text(Some(image.as_str())).is_some())
         .count()
 }
 
-fn normalized_source_images(command: &VideoGenerationCreateCommand) -> Vec<String> {
+fn normalized_source_images(command: &VideoGenerationCommand) -> Vec<String> {
     let mut images = Vec::new();
     if let Some(start_image) = normalized_optional_text(command.start_image.as_deref()) {
         images.push(start_image);

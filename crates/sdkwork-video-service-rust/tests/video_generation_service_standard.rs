@@ -91,14 +91,7 @@ fn plans_create_flow_with_provider_result_drive_import_and_outbox() {
     assert_eq!(plan.record.scene, "product_reveal");
     assert_eq!(plan.record.provider_code, "kling");
     assert_eq!(plan.record.provider_task_id.as_deref(), Some("task-001"));
-    assert_eq!(
-        plan.dispatch.dispatch_plan.claw_router_sdk_resource,
-        "videos_kling",
-    );
-    assert_eq!(
-        plan.dispatch.dispatch_plan.claw_router_sdk_method,
-        "create_v1_videos_generation",
-    );
+    assert!(plan.dispatch.dispatch_plan.provider_id.is_empty());
     assert_eq!(plan.drive_import_plans.len(), 1);
     assert_eq!(plan.drive_import_plans[0].scene, "product_reveal");
     assert_eq!(plan.drive_import_plans[0].drive_space_type, "ai_generated");
@@ -559,9 +552,8 @@ fn plans_executable_runtime_steps_for_generation_create_flow() {
         vec![
             VideoGenerationRuntimeStep::CreateGenerationRecord,
             VideoGenerationRuntimeStep::DispatchProviderGeneration {
+                provider_id: String::new(),
                 provider_code: "vidu".to_string(),
-                sdk_resource: "videos_vidu".to_string(),
-                sdk_method: "create_ent_v2_text2video".to_string(),
             },
             VideoGenerationRuntimeStep::PersistProviderSubmission,
             VideoGenerationRuntimeStep::AwaitProviderWebhook,
@@ -608,7 +600,7 @@ fn rejects_create_runtime_steps_when_vidu_image_operation_has_no_source_image() 
 }
 
 #[test]
-fn rejects_create_runtime_steps_when_provider_operation_is_not_exposed_by_claw_router_gateway() {
+fn rejects_create_runtime_steps_for_unregistered_vendor() {
     let error = plan_video_generation_create_runtime_steps(
         VideoGenerationScope {
             tenant_id: "100001".to_string(),
@@ -640,12 +632,12 @@ fn rejects_create_runtime_steps_when_provider_operation_is_not_exposed_by_claw_r
 
     assert_eq!(
         error,
-        "video provider operation is not exposed by the generated Claw Router SDK gateway"
+        "video generation vendor is not supported by a registered provider"
     );
 }
 
 #[test]
-fn rejects_create_service_flow_when_provider_operation_is_not_exposed_by_claw_router_gateway() {
+fn rejects_create_service_flow_for_unregistered_vendor() {
     let error = plan_video_generation_create_service_flow(
         VideoGenerationScope {
             tenant_id: "100001".to_string(),
@@ -662,12 +654,12 @@ fn rejects_create_service_flow_when_provider_operation_is_not_exposed_by_claw_ro
 
     assert_eq!(
         error,
-        "video provider operation is not exposed by the generated Claw Router SDK gateway"
+        "video generation vendor is not supported by a registered provider"
     );
 }
 
 #[test]
-fn rejects_create_persistence_plan_when_provider_operation_is_not_exposed_by_claw_router_gateway() {
+fn rejects_create_persistence_plan_for_unregistered_vendor() {
     let error = plan_video_generation_create_persistence_plan(
         VideoGenerationScope {
             tenant_id: "100001".to_string(),
@@ -684,7 +676,7 @@ fn rejects_create_persistence_plan_when_provider_operation_is_not_exposed_by_cla
 
     assert_eq!(
         error,
-        "video provider operation is not exposed by the generated Claw Router SDK gateway"
+        "video generation vendor is not supported by a registered provider"
     );
 }
 

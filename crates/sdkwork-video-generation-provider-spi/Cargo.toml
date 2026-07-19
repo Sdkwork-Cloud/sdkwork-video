@@ -1,0 +1,13 @@
+[package]
+name = "sdkwork-video-generation-provider-spi"
+version.workspace = true
+edition.workspace = true
+description = "Transport-neutral provider SPI for SDKWork video generation."
+
+[dependencies]
+async-trait = "0.1"
+sdkwork_video_core.workspace = true
+thiserror = "2"
+
+[dev-dependencies]
+tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }

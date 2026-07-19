@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use sdkwork_drive_product::{
+use sdkwork_drive_workspace_service::{
     domain::space::DriveSpaceType,
     uploader::{PrepareUploaderUploadCommand, UploaderActor, UploaderRetention, UploaderTarget},
 };

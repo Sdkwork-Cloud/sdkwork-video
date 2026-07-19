@@ -31,17 +31,12 @@ sdkwork-video/
 ## Rust Crates
 
 - `crates/sdkwork-video-core-rust/` - Video generation dispatch planning, provider task/result normalization, Drive import planning
-- `crates/sdkwork-video-provider-claw-router-rust/` - Claw Router provider gateway for Kling, Vidu, Volcengine, OpenAI
+- `crates/sdkwork-video-generation-provider-spi/` - Transport-neutral provider contracts and registry
+- `crates/sdkwork-video-generation-service/` - Unified generation service entrypoint
+- `crates/sdkwork-video-generation-provider-adapter/` - Generated SDK routing, DTO conversion, and normalization
 - `crates/sdkwork-video-service-rust/` - Service-level orchestration contracts
 
 Generated videos are planned for Drive `ai_generated` storage and represented as Drive-backed video media resources. Provider URLs are treated as temporary import sources and do not become persisted business media identity.
-
-## Known Issues
-
-- `sdkwork-drive-product` dependency path in `Cargo.toml` references a crate that no longer exists in the `sdkwork-drive` workspace. The `sdkwork-video-core-rust` crate imports `DriveSpaceType`, `PrepareUploaderUploadCommand`, `UploaderActor`, `UploaderRetention`, and `UploaderTarget` from this missing crate. This needs to be resolved by either:
-  1. Finding the new location of these types in `sdkwork-drive`
-  2. Creating a local adapter crate
-  3. Updating the import paths
 
 ## Verification
 

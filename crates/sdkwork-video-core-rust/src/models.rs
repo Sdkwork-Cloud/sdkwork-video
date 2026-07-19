@@ -2,6 +2,84 @@ use std::collections::BTreeMap;
 
 use crate::status::{VideoGenerationRuntimeStatus, VideoProviderOperation, VideoProviderTaskMode};
 
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+pub struct VideoVendorId(String);
+
+impl VideoVendorId {
+    pub fn new(value: impl Into<String>) -> Result<Self, &'static str> {
+        let value = value.into().trim().to_ascii_lowercase().replace('_', "-");
+        if value.is_empty() {
+            return Err("video generation vendor is required");
+        }
+        if !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || byte == b'-')
+        {
+            return Err("video generation vendor must use lowercase letters, digits, or hyphens");
+        }
+        Ok(Self(value))
+    }
+
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+
+impl std::fmt::Display for VideoVendorId {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter.write_str(self.as_str())
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum VideoGenerationModelSelection {
+    Named(String),
+    VendorDefault,
+}
+
+impl VideoGenerationModelSelection {
+    pub fn named(value: impl Into<String>) -> Result<Self, &'static str> {
+        let value = value.into().trim().to_string();
+        if value.is_empty() {
+            return Err("video generation model is required");
+        }
+        Ok(Self::Named(value))
+    }
+
+    pub fn as_named(&self) -> Option<&str> {
+        match self {
+            Self::Named(value) => Some(value),
+            Self::VendorDefault => None,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct VideoGenerationVendorParameters {
+    pub schema: String,
+    pub values: serde_json::Value,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct VideoGenerationCommand {
+    pub vendor: VideoVendorId,
+    pub operation: Option<String>,
+    pub model: VideoGenerationModelSelection,
+    pub prompt: String,
+    pub negative_prompt: Option<String>,
+    pub scene: String,
+    pub resolution: Option<String>,
+    pub aspect_ratio: Option<String>,
+    pub duration_seconds: Option<i32>,
+    pub start_image: Option<String>,
+    pub end_image: Option<String>,
+    pub reference_images: Vec<String>,
+    pub motion_strength: Option<String>,
+    pub callback_url: Option<String>,
+    pub idempotency_key: Option<String>,
+    pub vendor_parameters: Option<VideoGenerationVendorParameters>,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct VideoGenerationCreateCommand {
     pub prompt: String,
@@ -23,12 +101,10 @@ pub struct VideoGenerationCreateCommand {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct VideoProviderDispatchPlan {
+    pub provider_id: String,
     pub provider_code: String,
     pub provider_operation: VideoProviderOperation,
     pub task_mode: VideoProviderTaskMode,
-    pub claw_router_api_path: &'static str,
-    pub claw_router_sdk_resource: &'static str,
-    pub claw_router_sdk_method: &'static str,
     pub scene: String,
     pub prompt: String,
     pub negative_prompt: Option<String>,
@@ -42,6 +118,7 @@ pub struct VideoProviderDispatchPlan {
     pub motion_strength: Option<String>,
     pub callback_url: Option<String>,
     pub idempotency_key: Option<String>,
+    pub vendor_parameters: Option<VideoGenerationVendorParameters>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]

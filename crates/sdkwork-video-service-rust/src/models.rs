@@ -104,9 +104,8 @@ pub struct VideoGenerationRefreshPlan {
 pub enum VideoGenerationRuntimeStep {
     CreateGenerationRecord,
     DispatchProviderGeneration {
+        provider_id: String,
         provider_code: String,
-        sdk_resource: String,
-        sdk_method: String,
     },
     PersistProviderSubmission,
     ScheduleProviderPolling,

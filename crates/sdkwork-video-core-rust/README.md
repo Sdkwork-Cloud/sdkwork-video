@@ -13,7 +13,7 @@ This crate owns SDKWork video generation dispatch contracts, provider result nor
 
 ## Provider Boundary
 
-This crate does not call provider HTTP APIs. It produces provider dispatch plans that an approved adapter, such as `sdkwork_video_provider_claw_router`, executes through generated SDK clients.
+This crate does not call provider HTTP APIs. It produces provider dispatch plans that `sdkwork-video-generation-provider-adapter` executes through approved generated SDK clients.
 
 ## Media And Drive Contract
 
@@ -22,4 +22,3 @@ Generated videos are planned for Drive `ai_generated` storage. Provider URLs are
 ## Verification
 
 - `cargo test -p sdkwork_video_core --offline`
-

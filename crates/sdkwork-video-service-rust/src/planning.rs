@@ -2,7 +2,6 @@ use sdkwork_video_core::{
     plan_drive_import_for_generated_video_outputs, plan_video_generation_provider_dispatch,
     DriveGeneratedVideoContext, GeneratedVideoOutput, NormalizedProviderVideoGenerationResult,
     VideoGenerationCreateCommand, VideoGenerationRuntimeStatus, VideoProviderDispatchPlan,
-    VideoProviderOperation,
 };
 
 use crate::{
@@ -23,11 +22,6 @@ pub fn plan_video_generation_create_service_flow(
     let generation_id =
         require_trimmed_owned(generation_id.into(), "video generation id is required")?;
     let dispatch_plan = plan_video_generation_provider_dispatch(&command)?;
-    if !provider_operation_is_exposed_by_claw_router_gateway(dispatch_plan.provider_operation) {
-        return Err(
-            "video provider operation is not exposed by the generated Claw Router SDK gateway",
-        );
-    }
     let outputs = provider_result
         .as_ref()
         .filter(|result| result.ready_for_drive_import)
@@ -89,17 +83,11 @@ pub fn plan_video_generation_create_runtime_steps(
 ) -> Result<Vec<VideoGenerationRuntimeStep>, &'static str> {
     let plan = plan_video_generation_create_service_flow(scope, generation_id, command, None)?;
     let dispatch_plan = &plan.dispatch.dispatch_plan;
-    if !provider_operation_is_exposed_by_claw_router_gateway(dispatch_plan.provider_operation) {
-        return Err(
-            "video provider operation is not exposed by the generated Claw Router SDK gateway",
-        );
-    }
     let mut steps = vec![
         VideoGenerationRuntimeStep::CreateGenerationRecord,
         VideoGenerationRuntimeStep::DispatchProviderGeneration {
+            provider_id: dispatch_plan.provider_id.clone(),
             provider_code: dispatch_plan.provider_code.clone(),
-            sdk_resource: dispatch_plan.claw_router_sdk_resource.to_string(),
-            sdk_method: dispatch_plan.claw_router_sdk_method.to_string(),
         },
         VideoGenerationRuntimeStep::PersistProviderSubmission,
     ];
@@ -113,19 +101,6 @@ pub fn plan_video_generation_create_runtime_steps(
     });
 
     Ok(steps)
-}
-
-fn provider_operation_is_exposed_by_claw_router_gateway(operation: VideoProviderOperation) -> bool {
-    matches!(
-        operation,
-        VideoProviderOperation::ViduTextToVideo
-            | VideoProviderOperation::ViduImageToVideo
-            | VideoProviderOperation::ViduStartEndToVideo
-            | VideoProviderOperation::ViduReferenceToVideo
-            | VideoProviderOperation::KlingVideoGeneration
-            | VideoProviderOperation::VolcengineContentGeneration
-            | VideoProviderOperation::OpenAiVideoGeneration
-    )
 }
 
 pub fn plan_video_generation_refresh_from_provider_result(
