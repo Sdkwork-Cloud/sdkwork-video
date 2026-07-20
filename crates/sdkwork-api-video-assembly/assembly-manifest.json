@@ -1,0 +1,9 @@
+{
+  "kind": "sdkwork.api.assembly",
+  "schemaVersion": 1,
+  "applicationCode": "video",
+  "apiMode": "none",
+  "packageName": "sdkwork-api-video-assembly",
+  "crateDir": "crates/sdkwork-api-video-assembly",
+  "routeCrates": []
+}

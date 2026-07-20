@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/sdkwork-api-video-assembly",
     "crates/sdkwork-video-core-rust",
     "crates/sdkwork-video-service-rust",
     "crates/sdkwork-video-generation-provider-spi",
