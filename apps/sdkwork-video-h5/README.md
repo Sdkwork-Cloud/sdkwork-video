@@ -42,8 +42,5 @@ apps/sdkwork-video-h5/
 ```bash
 pnpm install
 pnpm dev
-pnpm h5:dev
-pnpm h5:build
-pnpm cap:ios:dev
-pnpm cap:android:dev
+pnpm build
 ```

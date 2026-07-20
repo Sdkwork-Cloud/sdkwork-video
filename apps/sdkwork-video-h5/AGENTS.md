@@ -49,7 +49,7 @@ This is the H5 application root for SDKWork Video. It follows `APP_H5_ARCHITECTU
 
 ## Build, Test, and Verification
 
-Run `pnpm install`, `pnpm dev`, `pnpm h5:dev`, `pnpm h5:build`, `pnpm cap:ios:dev`, `pnpm cap:android:dev` for development and verification.
+Run `pnpm install`, `pnpm dev`, `pnpm build`, `pnpm test`, and `pnpm typecheck` for development and verification.
 
 ## Agent Execution Rules
 

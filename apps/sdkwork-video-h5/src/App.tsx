@@ -1,5 +1,4 @@
 import { AuthGate } from './AuthGate';
-import { bootstrap } from './bootstrap/runtime';
 
 export default function App() {
   return (

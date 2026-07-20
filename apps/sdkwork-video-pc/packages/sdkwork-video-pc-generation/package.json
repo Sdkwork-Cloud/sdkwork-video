@@ -29,7 +29,7 @@
     "@sdkwork/generations-pc-studio": "workspace:*"
   },
   "peerDependencies": {
-    "@sdkwork/ui-pc-react": "*",
+    "@sdkwork/ui-pc-react": "workspace:*",
     "react": ">=18.2.0 <20.0.0",
     "react-dom": ">=18.2.0 <20.0.0",
     "react-i18next": ">=14.0.0"
